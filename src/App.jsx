@@ -9,7 +9,7 @@ function App() {
           </a>
           <div className="flex gap-6 text-sm">
             <a href="#om" className="text-zinc-400 hover:text-amber-500 transition-colors">Om</a>
-            <a href="#lokaler" className="text-zinc-400 hover:text-amber-500 transition-colors">Lokaler</a>
+            <a href="#lokaler" className="text-zinc-400 hover:text-amber-500 transition-colors">Hvor</a>
             <a href="#movember" className="text-zinc-400 hover:text-amber-500 transition-colors">Movember</a>
             <a href="#kontakt" className="text-zinc-400 hover:text-amber-500 transition-colors">Kontakt</a>
           </div>
@@ -67,12 +67,9 @@ function App() {
           <p className="text-amber-500 uppercase tracking-[0.3em] text-sm text-center mb-4">
             Bartebord 2025
           </p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 text-center mb-6">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 text-center mb-16">
             Lokaler
           </h2>
-          <p className="text-zinc-500 text-center mb-16">
-            Lokaler for 2026 kommer snart
-          </p>
 
           <div className="space-y-8">
             <div className="border border-zinc-800 p-8">
