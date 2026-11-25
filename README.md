@@ -33,6 +33,10 @@ npm run build
 npm run preview
 ```
 
+## Voting
+
+The voting for the year's best and worst mustache lives at `/vote/`, `/admin/` and `/screen/`, backed by Supabase. See [VOTING.md](VOTING.md) for setup and use.
+
 ## Deployment
 
 The site automatically deploys to GitHub Pages when changes are pushed to `main`. The GitHub Actions workflow handles building and deployment.
