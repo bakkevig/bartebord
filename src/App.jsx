@@ -136,6 +136,19 @@ function App() {
               Kuvertprisen er minimum kr 2 000 per bartebror. Overskuddet går i sin helhet til Movember, og vi donerer det på vegne av deltakerne.
             </p>
             <p>
+              Movember arbeider for menns helse, med psykisk helse og selvmordsforebygging, prostatakreft og testikkelkreft som hjertesaker. For oss er det menns psykiske helse som betyr mest. Selvmord kan i stor grad forebygges, og det begynner med at vi snakker sammen.
+            </p>
+            <p>
+              <a
+                href="https://no.movember.com/mens-health/mental-health"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-300 hover:text-amber-500 transition-colors border-b border-zinc-700 hover:border-amber-500 pb-0.5"
+              >
+                Les mer om Movembers arbeid for psykisk helse
+              </a>
+            </p>
+            <p>
               Ønsker du å støtte menns helse ytterligere, står du fritt til å betale mer – alt utover kostnadene går uavkortet til Movember.
             </p>
           </div>
