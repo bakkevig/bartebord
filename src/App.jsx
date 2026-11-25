@@ -22,10 +22,10 @@ function MapLink({ href }) {
 function SectionHeading({ eyebrow, title, className = 'mb-6' }) {
   return (
     <>
-      <p className="text-amber-500 uppercase tracking-[0.3em] text-sm text-center mb-4">
+      <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
         {eyebrow}
       </p>
-      <h2 className={`text-3xl md:text-4xl xl:text-5xl font-serif font-bold text-zinc-100 text-center ${className}`}>
+      <h2 className={`text-3xl md:text-4xl xl:text-5xl font-serif font-bold text-zinc-100 ${className}`}>
         {title}
       </h2>
     </>
@@ -79,10 +79,10 @@ function App() {
       </section>
 
       {/* About Section */}
-      <section id="om" className="py-24 px-6 bg-zinc-900">
-        <div className="max-w-2xl xl:max-w-3xl mx-auto text-center">
+      <section id="om" className="py-24 bg-zinc-900">
+        <div className="max-w-5xl mx-auto px-6">
           <SectionHeading eyebrow="Tradisjonen" title="Hva er Bartebord?" className="mb-8" />
-          <div className="text-zinc-400 text-lg xl:text-xl leading-relaxed space-y-6">
+          <div className="max-w-3xl text-zinc-400 text-lg xl:text-xl leading-relaxed space-y-6">
             <p>
               Bartebord er en årlig feiring av barten – i alle dens størrelser og fasonger. Hver november samles menn i mørke dresser til en aften med stil, eleganse og godt selskap.
             </p>
@@ -94,10 +94,10 @@ function App() {
       </section>
 
       {/* Practical Info Section */}
-      <section id="lokaler" className="py-24 px-6 bg-zinc-950">
-        <div className="max-w-2xl lg:max-w-5xl mx-auto">
+      <section id="lokaler" className="py-24 bg-zinc-950">
+        <div className="max-w-5xl mx-auto px-6">
           <SectionHeading eyebrow="Bartebord 2026" title="Lokaler" className="mb-4" />
-          <p className="text-zinc-400 text-lg xl:text-xl text-center mb-16">Lørdag 28. november</p>
+          <p className="text-zinc-400 text-lg xl:text-xl mb-12">Lørdag 28. november</p>
 
           <div className="grid gap-8 lg:grid-cols-2">
             <div className="border border-zinc-800 p-8">
@@ -125,11 +125,11 @@ function App() {
       </section>
 
       {/* Payment Section */}
-      <section id="kuvert" className="py-24 px-6 bg-zinc-900">
-        <div className="max-w-2xl lg:max-w-5xl mx-auto">
-          <SectionHeading eyebrow="Kuvert og Movember" title="Årets kuvert" className="mb-10 lg:mb-16" />
-          <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:gap-16 lg:items-center">
-            <div className="text-zinc-400 text-lg xl:text-xl leading-relaxed space-y-6 text-center lg:text-left mb-12 lg:mb-0">
+      <section id="kuvert" className="py-24 bg-zinc-900">
+        <div className="max-w-5xl mx-auto px-6">
+          <SectionHeading eyebrow="Kuvert og Movember" title="Årets kuvert" className="mb-8 lg:mb-12" />
+          <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:gap-16 lg:items-start">
+            <div className="text-zinc-400 text-lg xl:text-xl leading-relaxed space-y-6 mb-12 lg:mb-0">
               <p>
                 Kuvertprisen er minimum kr 2 000 per bartebror. Overskuddet går i sin helhet til Movember, og vi donerer det på vegne av deltakerne.
               </p>
@@ -152,7 +152,7 @@ function App() {
             </div>
 
             {/* On phones the button comes first (you can't scan your own screen); on desktop the QR code does */}
-            <div className="flex flex-col items-center gap-6 text-center lg:border lg:border-zinc-800 lg:p-10">
+            <div className="flex flex-col items-start gap-6 border border-zinc-800 p-8 lg:p-10">
               <p className="order-1 text-zinc-300 text-lg xl:text-xl">
                 Betal med Vipps innen <span className="text-amber-500 whitespace-nowrap">12. desember</span>
               </p>
@@ -180,13 +180,13 @@ function App() {
       </section>
 
       {/* Board Section */}
-      <section className="py-24 px-6 bg-zinc-950">
-        <div className="max-w-3xl xl:max-w-4xl mx-auto text-center">
+      <section className="py-24 bg-zinc-950">
+        <div className="max-w-5xl mx-auto px-6">
           <SectionHeading eyebrow="Styret" title="Bartebord Board of Directors" />
-          <p className="text-zinc-400 text-lg xl:text-xl leading-relaxed mb-12">
+          <p className="text-zinc-400 text-lg xl:text-xl leading-relaxed mb-10">
             Bartebord arrangeres av en gruppe ildsjeler kjent som Bartebord Board of Directors.
           </p>
-          <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
+          <div className="flex flex-wrap gap-x-10 gap-y-4">
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Alf Georg Grastveit</div>
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Chris Bateman</div>
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Eivind Bakkevig</div>
@@ -196,17 +196,21 @@ function App() {
       </section>
 
       {/* Footer with contact */}
-      <footer id="kontakt" className="py-16 px-6 bg-zinc-900 text-center">
-        <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
-          Spørsmål?
-        </p>
-        <a
-          href="mailto:post@bartebord.no"
-          className="text-xl text-zinc-200 hover:text-amber-500 transition-colors border-b border-zinc-700 hover:border-amber-500 pb-1"
-        >
-          post@bartebord.no
-        </a>
-        <p className="text-zinc-400 text-sm mt-12">&copy; {new Date().getFullYear()} Bartebord</p>
+      <footer id="kontakt" className="py-16 bg-zinc-900">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col gap-12 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
+              Spørsmål?
+            </p>
+            <a
+              href="mailto:post@bartebord.no"
+              className="text-xl text-zinc-200 hover:text-amber-500 transition-colors border-b border-zinc-700 hover:border-amber-500 pb-1"
+            >
+              post@bartebord.no
+            </a>
+          </div>
+          <p className="text-zinc-400 text-sm">&copy; {new Date().getFullYear()} Bartebord</p>
+        </div>
       </footer>
     </div>
   )
