@@ -222,7 +222,7 @@ begin
   if length(coalesce(p_password, '')) < 10 then
     raise exception 'Bruk et passord på minst 10 tegn.';
   end if;
-  update voting.settings set admin_password_hash = extensions.crypt(p_password, extensions.gen_salt('bf'));
+  update voting.settings set admin_password_hash = extensions.crypt(p_password, extensions.gen_salt('bf')) where id = 1;
 end $$;
 
 -- Resets everything after a dress rehearsal. Codes are kept, so printed
@@ -234,7 +234,7 @@ begin
   delete from voting.ballots where true;
   delete from voting.upload_tokens where true;
   update voting.participants set name = null, photo_path = null, registered_at = null where true;
-  update voting.settings set phase = 'registration', final_best = '{}', final_worst = '{}', reveal = false;
+  update voting.settings set phase = 'registration', final_best = '{}', final_worst = '{}', reveal = false where id = 1;
 end $$;
 
 -- ---------------------------------------------------------------------------
@@ -483,7 +483,7 @@ begin
   case p_action
     when 'open_voting' then
       if v_phase <> 'registration' then raise exception 'Avstemningen er allerede åpnet.'; end if;
-      update voting.settings set phase = 'round1';
+      update voting.settings set phase = 'round1' where id = 1;
 
     when 'start_final' then
       if v_phase <> 'round1' then raise exception 'Finalen kan bare startes fra første runde.'; end if;
@@ -492,29 +492,29 @@ begin
       if cardinality(v_best) = 0 or cardinality(v_worst) = 0 then
         raise exception 'Det må være minst én stemme i hver kategori før finalen kan starte.';
       end if;
-      update voting.settings set phase = 'final', final_best = v_best, final_worst = v_worst;
+      update voting.settings set phase = 'final', final_best = v_best, final_worst = v_worst where id = 1;
 
     when 'back_to_round1' then
       if v_phase <> 'final' then raise exception 'Finalen er ikke startet.'; end if;
       if exists (select 1 from voting.ballots where round = 2) then
         raise exception 'Noen har allerede stemt i finalen. Kan ikke gå tilbake.';
       end if;
-      update voting.settings set phase = 'round1', final_best = '{}', final_worst = '{}';
+      update voting.settings set phase = 'round1', final_best = '{}', final_worst = '{}' where id = 1;
 
     when 'finish' then
       if v_phase <> 'final' then raise exception 'Finalen er ikke i gang.'; end if;
-      update voting.settings set phase = 'done', reveal = false;
+      update voting.settings set phase = 'done', reveal = false where id = 1;
 
     when 'reopen_final' then
       if v_phase <> 'done' then raise exception 'Avstemningen er ikke avsluttet.'; end if;
-      update voting.settings set phase = 'final', reveal = false;
+      update voting.settings set phase = 'final', reveal = false where id = 1;
 
     when 'reveal' then
       if v_phase <> 'done' then raise exception 'Avslutt finalen før vinnerne vises.'; end if;
-      update voting.settings set reveal = true;
+      update voting.settings set reveal = true where id = 1;
 
     when 'hide' then
-      update voting.settings set reveal = false;
+      update voting.settings set reveal = false where id = 1;
 
     else
       raise exception 'Ukjent handling: %', p_action;
