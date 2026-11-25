@@ -167,7 +167,7 @@ function App() {
 
       {/* Board Section */}
       <section className="py-24 px-6 bg-zinc-950">
-        <div className="max-w-2xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center">
           <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
             Styret
           </p>
@@ -177,7 +177,7 @@ function App() {
           <p className="text-zinc-400 text-lg leading-relaxed mb-12">
             Bartebord arrangeres av en gruppe ildsjeler kjent som Bartebord Board of Directors.
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-6">
+          <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Alf Georg Grastveit</div>
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Chris Bateman</div>
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Eivind Bakkevig</div>
