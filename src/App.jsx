@@ -33,6 +33,9 @@ function App() {
           <p className="text-xl md:text-2xl text-zinc-300 max-w-md">
             En feiring av barter i alle størrelser og fasonger
           </p>
+          <p className="text-amber-500 text-lg md:text-xl font-serif mt-8">
+            Lørdag 28. november 2026
+          </p>
         </div>
         <a href="#om" className="absolute bottom-12 animate-bounce z-10">
           <svg className="w-6 h-6 text-zinc-400 hover:text-amber-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,21 +68,25 @@ function App() {
       <section id="lokaler" className="py-24 px-6 bg-zinc-950">
         <div className="max-w-2xl mx-auto">
           <p className="text-amber-500 uppercase tracking-[0.3em] text-sm text-center mb-4">
-            Bartebord 2025
+            Bartebord 2026
           </p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 text-center mb-4">
             Lokaler
           </h2>
+          <p className="text-zinc-400 text-lg text-center mb-16">Lørdag 28. november</p>
 
           <div className="space-y-8">
             <div className="border border-zinc-800 p-8">
-              <p className="text-amber-500 text-sm uppercase tracking-wider mb-2">Første stopp</p>
+              <p className="text-amber-500 text-sm uppercase tracking-wider mb-2">Kl. 17.00 · Innledende skål</p>
               <h3 className="text-2xl font-serif text-zinc-100 mb-2">
-                Gaffel & Karaffel
+                Emne
               </h3>
-              <p className="text-zinc-500 mb-4">Øvre Holmegate 20, Stavanger</p>
+              <p className="text-zinc-500 mb-2">Kongsgårdbakken 3, 6. etasje, Stavanger</p>
+              <p className="text-zinc-500 text-sm mb-4">
+                Inngangen ligger på hjørnet mot Domkirken, ved siden av NIO Space. Ring på knappen merket «Emne».
+              </p>
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Gaffel+%26+Karaffel+Øvre+Holmegate+20+Stavanger"
+                href="https://www.google.com/maps/search/?api=1&query=Kongsgårdbakken+3+Stavanger"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-amber-500 transition-colors"
@@ -93,13 +100,13 @@ function App() {
             </div>
 
             <div className="border border-zinc-800 p-8">
-              <p className="text-amber-500 text-sm uppercase tracking-wider mb-2">Hovedarrangement</p>
+              <p className="text-amber-500 text-sm uppercase tracking-wider mb-2">Kl. 20.00 · Festmiddag</p>
               <h3 className="text-2xl font-serif text-zinc-100 mb-2">
-                Greenhouse Rooftop
+                Seid Grill & Cocktailbar
               </h3>
-              <p className="text-zinc-500 mb-4">Hospitalsgata 6, Stavanger</p>
+              <p className="text-zinc-500 mb-4">Knud Holms gate 8, Stavanger</p>
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Hospitalsgata+6+Stavanger"
+                href="https://www.google.com/maps/search/?api=1&query=Seid+Grill+%26+Cocktailbar+Knud+Holms+gate+8+Stavanger"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-amber-500 transition-colors"
@@ -160,7 +167,7 @@ function App() {
             Bartebord arrangeres av en gruppe ildsjeler kjent som Bartebord Board of Directors.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-6">
-            <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Alf Georg Gratveit</div>
+            <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Alf Georg Grastveit</div>
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Chris Bateman</div>
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Eivind Bakkevig</div>
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Jan-Erik Hauge</div>
