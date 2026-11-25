@@ -84,10 +84,10 @@ function App() {
           <SectionHeading eyebrow="Tradisjonen" title="Hva er Bartebord?" className="mb-8" />
           <div className="max-w-3xl text-zinc-400 text-lg xl:text-xl leading-relaxed space-y-6">
             <p>
-              Bartebord er en årlig feiring av barten – i alle dens størrelser og fasonger. Hver november samles menn i mørke dresser til en aften med stil, eleganse og godt selskap.
+              Bartebord er en høytidelig sammenkomst til ære for mannen, barten og den gode selskapsånd. Hver november møtes bartebrødrene i mørk dress til skål og festmiddag, og i år arrangeres Bartebord for syvende gang.
             </p>
             <p>
-              Kvelden byr på utsøkt mat og drikke i sofistikerte omgivelser. Det er en anledning til å hedre bartens tradisjon, samtidig som vi støtter en god sak.
+              Deltakelse forutsetter behørig oppspart bart, påbegynt senest 1. november. Det gis ikke dispensasjon. Tradisjonen tro blir kveldens fremste bart premiert.
             </p>
           </div>
         </div>
@@ -117,7 +117,10 @@ function App() {
               <h3 className="text-2xl xl:text-3xl font-serif text-zinc-100 mb-2">
                 Seid Grill & Cocktailbar
               </h3>
-              <p className="text-zinc-400 mb-4">Knud Holms gate 8, Stavanger</p>
+              <p className="text-zinc-400 mb-2">Knud Holms gate 8, Stavanger</p>
+              <p className="text-zinc-400 text-sm leading-relaxed mb-4">
+                Treretters middag med drikke, i eget lokale.
+              </p>
               <MapLink href="https://www.google.com/maps/search/?api=1&query=Seid+Grill+%26+Cocktailbar+Knud+Holms+gate+8+Stavanger" />
             </div>
           </div>
@@ -131,10 +134,10 @@ function App() {
           <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:gap-16 lg:items-start">
             <div className="text-zinc-400 text-lg xl:text-xl leading-relaxed space-y-6 mb-12 lg:mb-0">
               <p>
-                Kuvertprisen er minimum kr 2 000 per bartebror. Overskuddet går i sin helhet til Movember, og vi donerer det på vegne av deltakerne.
+                Kuvertprisen er minst kr 2 000 per bartebror. Det som blir til overs etter middagen, gir vi til Movember på vegne av deltakerne. Vil du gi mer, betaler du bare inn et høyere beløp.
               </p>
               <p>
-                Movember arbeider for menns helse, med psykisk helse og selvmordsforebygging, prostatakreft og testikkelkreft som hjertesaker. For oss er det menns psykiske helse som betyr mest. Selvmord kan i stor grad forebygges, og det begynner med at vi snakker sammen.
+                Movember jobber med menns helse: psykisk helse og selvmordsforebygging, prostatakreft og testikkelkreft. For oss er det arbeidet med menns psykiske helse som betyr mest.
               </p>
               <p>
                 <a
@@ -145,9 +148,6 @@ function App() {
                 >
                   Les mer om Movembers arbeid for psykisk helse
                 </a>
-              </p>
-              <p>
-                Ønsker du å støtte menns helse ytterligere, står du fritt til å betale mer – alt utover kostnadene går uavkortet til Movember.
               </p>
             </div>
 
@@ -184,7 +184,7 @@ function App() {
         <div className="max-w-5xl mx-auto px-6">
           <SectionHeading eyebrow="Styret" title="Bartebord Board of Directors" />
           <p className="text-zinc-400 text-lg xl:text-xl leading-relaxed mb-10">
-            Bartebord arrangeres av en gruppe ildsjeler kjent som Bartebord Board of Directors.
+            Bartebord arrangeres av styret. Allergier og andre henvendelser kan rettes til ditt foretrukne styremedlem.
           </p>
           <div className="flex flex-wrap gap-x-10 gap-y-4">
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Alf Georg Grastveit</div>
@@ -209,7 +209,7 @@ function App() {
               post@bartebord.no
             </a>
           </div>
-          <p className="text-zinc-400 text-sm">&copy; {new Date().getFullYear()} Bartebord</p>
+          <p className="text-zinc-400 text-sm">Vi bartes. &copy; {new Date().getFullYear()} Bartebord</p>
         </div>
       </footer>
     </div>
