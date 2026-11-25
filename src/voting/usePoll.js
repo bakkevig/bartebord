@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-// Henter data på nytt med jevne mellomrom, og med en gang når fanen blir synlig igjen.
+// Reloads data at a fixed interval, and right away when the tab becomes visible again.
 export function usePoll(load, intervalMs, deps = []) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)

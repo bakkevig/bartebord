@@ -1,5 +1,5 @@
-// Gjør et bilde fra mobilkameraet om til et kvadratisk JPEG-bilde på rundt
-// 100–200 kB, slik at opplastingen går raskt også på dårlig nett.
+// Turns a photo from the phone camera into a square JPEG of about 100–200 kB,
+// so the upload is quick even on a poor connection.
 export async function toSquareJpeg(file, size = 900, quality = 0.82) {
   const objectUrl = URL.createObjectURL(file)
   try {

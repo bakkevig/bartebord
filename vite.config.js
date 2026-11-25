@@ -8,12 +8,12 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {
-      // Kåringen har egne sider: /stem/, /admin/ og /skjerm/
+      // The voting has its own pages: /vote/, /admin/ and /screen/
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
-        stem: resolve(import.meta.dirname, 'stem/index.html'),
+        vote: resolve(import.meta.dirname, 'vote/index.html'),
         admin: resolve(import.meta.dirname, 'admin/index.html'),
-        skjerm: resolve(import.meta.dirname, 'skjerm/index.html'),
+        screen: resolve(import.meta.dirname, 'screen/index.html'),
       },
     },
   },

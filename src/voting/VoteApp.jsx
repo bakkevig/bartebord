@@ -4,7 +4,7 @@ import { toSquareJpeg } from './image.js'
 import { Button, ErrorText, Eyebrow, MustacheMark, Photo, Title } from './ui.jsx'
 import { usePoll } from './usePoll.js'
 
-const CODE_KEY = 'bartebord-kode'
+const CODE_KEY = 'bartebord-code'
 
 function readStoredCode() {
   try {
@@ -19,14 +19,14 @@ function storeCode(code) {
     if (code) localStorage.setItem(CODE_KEY, code)
     else localStorage.removeItem(CODE_KEY)
   } catch {
-    // Privat modus o.l.: koden huskes bare så lenge siden er åpen.
+    // Private mode etc.: the code is only remembered while the page is open.
   }
 }
 
-// Koden kan komme fra QR-koden (?kode=...). Den lagres og fjernes fra adressefeltet.
+// The code may come from the QR code (?code=...). It is stored and removed from the address bar.
 function initialCode() {
   const params = new URLSearchParams(window.location.search)
-  const fromUrl = params.get('kode')
+  const fromUrl = params.get('code')
   if (fromUrl) {
     const code = fromUrl.toUpperCase().replace(/[^A-Z0-9]/g, '')
     storeCode(code)
@@ -243,7 +243,7 @@ function CandidateGrid({ people, selected, onSelect }) {
 }
 
 function Vote({ code, state, onDone }) {
-  const final = state.phase === 'finale'
+  const final = state.phase === 'final'
   const hasBest = state.best.length > 0
   const hasWorst = state.worst.length > 0
   const [step, setStep] = useState(hasBest ? 'best' : hasWorst ? 'worst' : 'confirm')
@@ -381,7 +381,7 @@ function Message({ eyebrow, title, children }) {
 function Content({ code, state, refresh }) {
   const [editing, setEditing] = useState(false)
 
-  if (state.phase === 'ferdig') {
+  if (state.phase === 'done') {
     if (state.winners) return <Winners winners={state.winners} />
     return (
       <Message eyebrow="Avstemningen er avsluttet" title="Stemmene er talt">
@@ -405,12 +405,12 @@ function Content({ code, state, refresh }) {
     )
   }
 
-  if (state.phase === 'registrering') {
+  if (state.phase === 'registration') {
     return <Waiting state={state} onEdit={() => setEditing(true)} />
   }
 
   if (state.voted) {
-    return state.phase === 'finale' ? (
+    return state.phase === 'final' ? (
       <Message eyebrow="Finale" title="Takk for stemmen!">
         <p>Vinnerne avsløres når alle har stemt.</p>
       </Message>

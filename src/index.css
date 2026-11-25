@@ -4,7 +4,7 @@
   --font-serif: "Playfair Display", serif;
 }
 
-/* Utskrift av lapper til kåringen (admin → Lapper) */
+/* Printing voting slips (admin → Lapper) */
 @media print {
   @page {
     size: A4;

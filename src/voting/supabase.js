@@ -19,7 +19,7 @@ function friendly(error) {
   return message || 'Noe gikk galt. Prøv igjen.'
 }
 
-// Kaller en databasefunksjon og kaster en feil med norsk tekst hvis noe går galt.
+// Calls a database function and throws an error with Norwegian text if something goes wrong.
 export async function rpc(fn, args = {}) {
   let result
   try {
@@ -34,7 +34,7 @@ export async function rpc(fn, args = {}) {
 export async function uploadPhoto(path, blob) {
   let result
   try {
-    result = await supabase.storage.from('barter').upload(path, await blob.arrayBuffer(), {
+    result = await supabase.storage.from('mustaches').upload(path, await blob.arrayBuffer(), {
       contentType: 'image/jpeg',
       cacheControl: '31536000',
       upsert: false,
@@ -46,7 +46,7 @@ export async function uploadPhoto(path, blob) {
 }
 
 export function photoUrl(path) {
-  return path ? `${url}/storage/v1/object/public/barter/${path}` : null
+  return path ? `${url}/storage/v1/object/public/mustaches/${path}` : null
 }
 
 export function formatCode(code) {

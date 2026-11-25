@@ -7,10 +7,10 @@ import { usePoll } from './usePoll.js'
 const PASSWORD_KEY = 'bartebord-admin'
 
 const PHASES = {
-  registrering: 'Registrering',
-  runde1: 'Første runde',
-  finale: 'Finale',
-  ferdig: 'Avsluttet',
+  registration: 'Registrering',
+  round1: 'Første runde',
+  final: 'Finale',
+  done: 'Avsluttet',
 }
 
 function Login({ onLogin, error }) {
@@ -53,7 +53,7 @@ function Stat({ label, value }) {
   )
 }
 
-// Rangert liste over stemmer i én kategori.
+// Ranked list of votes in one category.
 function Ranking({ title, people, field, highlight = [], highlightLabel, limitTo }) {
   const rows = people
     .filter((p) => p.registered && (!limitTo || limitTo.includes(p.id)))
@@ -113,7 +113,7 @@ function Overview({ data, act, busy }) {
   const registered = people.filter((p) => p.registered)
   const voted1 = registered.filter((p) => p.voted1).length
   const voted2 = registered.filter((p) => p.voted2).length
-  const round = data.phase === 'finale' ? 2 : 1
+  const round = data.phase === 'final' ? 2 : 1
   const missing = registered.filter((p) => (round === 2 ? !p.voted2 : !p.voted1))
 
   return (
@@ -125,7 +125,7 @@ function Overview({ data, act, busy }) {
         <Stat label="Stemt finale" value={`${voted2} / ${registered.length}`} />
       </div>
 
-      {data.phase === 'registrering' && (
+      {data.phase === 'registration' && (
         <section className="space-y-4">
           <p className="text-zinc-300">
             Avstemningen åpner av seg selv kl. {formatTime(data.voting_opens_at)}, eller når {data.expected_count}{' '}
@@ -137,7 +137,7 @@ function Overview({ data, act, busy }) {
         </section>
       )}
 
-      {data.phase === 'runde1' && (
+      {data.phase === 'round1' && (
         <section className="space-y-4">
           <p className="text-zinc-300">
             Resultatet oppdateres fortløpende. Uthevet: de som går til finalen hvis du starter den nå (topp 3, alle som
@@ -161,7 +161,7 @@ function Overview({ data, act, busy }) {
         </section>
       )}
 
-      {data.phase === 'finale' && (
+      {data.phase === 'final' && (
         <section className="space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
             <Ranking title="Beste bart – finale" people={people} field="r2_best" limitTo={data.final_best} highlight={data.winners_best} highlightLabel="Leder" />
@@ -183,7 +183,7 @@ function Overview({ data, act, busy }) {
         </section>
       )}
 
-      {data.phase === 'ferdig' && (
+      {data.phase === 'done' && (
         <section className="space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
             <WinnerBox title="Årets beste bart" ids={data.winners_best} people={people} />
@@ -217,7 +217,7 @@ function Overview({ data, act, busy }) {
         </section>
       )}
 
-      {(data.phase === 'runde1' || data.phase === 'finale') && missing.length > 0 && (
+      {(data.phase === 'round1' || data.phase === 'final') && missing.length > 0 && (
         <section>
           <h3 className="font-serif text-xl mb-3">Har ikke stemt ({missing.length})</h3>
           <div className="flex flex-wrap gap-3">
@@ -267,7 +267,7 @@ function Overview({ data, act, busy }) {
 
 function SlipCard({ code }) {
   const [svg, setSvg] = useState('')
-  const url = `${window.location.origin}/stem/?kode=${code}`
+  const url = `${window.location.origin}/vote/?code=${code}`
   useEffect(() => {
     QRCode.toString(url, { type: 'svg', margin: 0, errorCorrectionLevel: 'M' }).then(setSvg)
   }, [url])
@@ -277,7 +277,7 @@ function SlipCard({ code }) {
       <div className="min-w-0">
         <p className="font-serif text-xl font-bold">Bartebord 2026</p>
         <p className="text-sm mt-1 leading-snug">Skann koden med mobilen, ta en selfie og stem på årets beste og verste bart.</p>
-        <p className="text-xs mt-3 text-zinc-600">Eller gå til {window.location.host}/stem og skriv inn:</p>
+        <p className="text-xs mt-3 text-zinc-600">Eller gå til {window.location.host}/vote og skriv inn:</p>
         <p className="font-mono text-2xl tracking-[0.2em] font-bold mt-1">{formatCode(code)}</p>
       </div>
     </div>
@@ -354,7 +354,7 @@ function Dashboard({ password, onLogout }) {
                 {label}
               </button>
             ))}
-            <a href="/skjerm/" target="_blank" rel="noopener" className="text-zinc-400 hover:text-zinc-200">
+            <a href="/screen/" target="_blank" rel="noopener" className="text-zinc-400 hover:text-zinc-200">
               Storskjerm ↗
             </a>
           </nav>
@@ -386,7 +386,7 @@ export default function App() {
       if (value) sessionStorage.setItem(PASSWORD_KEY, value)
       else sessionStorage.removeItem(PASSWORD_KEY)
     } catch {
-      // ignorer
+      // ignore
     }
     setPassword(value)
   }

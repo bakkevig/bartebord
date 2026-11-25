@@ -17,7 +17,7 @@ function Mosaic({ people }) {
 }
 
 function Finalists({ title, people, large = false }) {
-  // Ved uavgjort må flere vinnerbilder få plass ved siden av hverandre.
+  // On a tie, several winner photos must fit side by side.
   const big = large && people.length === 1
   const medium = large && people.length > 1
   return (
@@ -41,7 +41,7 @@ function Big({ children }) {
 }
 
 function Screen({ s }) {
-  if (s.phase === 'ferdig' && s.winners) {
+  if (s.phase === 'done' && s.winners) {
     return (
       <>
         <Big>Årets barter</Big>
@@ -52,12 +52,12 @@ function Screen({ s }) {
       </>
     )
   }
-  if (s.phase === 'finale' || s.phase === 'ferdig') {
+  if (s.phase === 'final' || s.phase === 'done') {
     return (
       <>
-        <Big>{s.phase === 'finale' ? 'Finale' : 'Stemmene er talt'}</Big>
+        <Big>{s.phase === 'final' ? 'Finale' : 'Stemmene er talt'}</Big>
         <p className="text-2xl text-zinc-300 text-center">
-          {s.phase === 'finale'
+          {s.phase === 'final'
             ? `Stem på nytt blant finalistene · ${s.voted_count} av ${s.registered_count} har stemt`
             : 'Vinnerne avsløres straks …'}
         </p>
@@ -68,7 +68,7 @@ function Screen({ s }) {
       </>
     )
   }
-  if (s.phase === 'runde1') {
+  if (s.phase === 'round1') {
     return (
       <>
         <Big>Avstemningen er åpen</Big>

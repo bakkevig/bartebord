@@ -33,9 +33,9 @@ npm run build
 npm run preview
 ```
 
-## Bartekåringen
+## Voting
 
-The voting for the year's best and worst mustache lives at `/stem/`, `/admin/` and `/skjerm/`, backed by Supabase. Setup and use are described in Norwegian in [KAARING.md](KAARING.md).
+The voting for the year's best and worst mustache lives at `/vote/`, `/admin/` and `/screen/`, backed by Supabase. See [VOTING.md](VOTING.md) for setup and use.
 
 ## Deployment
 
