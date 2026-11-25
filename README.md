@@ -1,6 +1,6 @@
 # Bartebord
 
-Website for [Bartebord](https://bartebord.no) – an annual celebration of mustaches in Stavanger, Norway. Every November, men gather in dark suits for an evening of style, elegance, cocktails, caviar, and charity, supporting the Movember foundation.
+Website for [Bartebord](https://bartebord.no) – an annual celebration of mustaches in Stavanger, Norway. Every November, men gather in dark suits for an evening of style, elegance, fine food and drink, and charity, supporting the Movember foundation.
 
 ## Tech Stack
 
