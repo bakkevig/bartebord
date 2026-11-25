@@ -87,7 +87,7 @@ function App() {
               Bartebord er en årlig feiring av barten – i alle dens størrelser og fasonger. Hver november samles menn i mørke dresser til en aften med stil, eleganse og godt selskap.
             </p>
             <p>
-              Kvelden byr på cocktails, kaviar, vodka og utsøkt mat i sofistikerte omgivelser. Det er en anledning til å hedre bartens tradisjon, samtidig som vi støtter en god sak.
+              Kvelden byr på utsøkt mat og drikke i sofistikerte omgivelser. Det er en anledning til å hedre bartens tradisjon, samtidig som vi støtter en god sak.
             </p>
           </div>
         </div>
