@@ -87,34 +87,73 @@ function Ranking({ title, people, field, highlight = [], highlightLabel, limitTo
   )
 }
 
-function WinnerBox({ title, ids, people }) {
-  const winners = people.filter((p) => ids.includes(p.id))
+function WinnerBox({ title, kind, data, people, onChoose, busy }) {
+  const leaders = people.filter((p) => data[`leaders_${kind}`].includes(p.id))
+  const winnerIds = data[`winners_${kind}`]
+  const tie = leaders.length > 1
+  const chosen = tie && winnerIds.length === 1 ? winnerIds[0] : null
+  const [choosing, setChoosing] = useState(false)
+  const showChoice = tie && (!chosen || choosing)
+
   return (
     <section className="border border-amber-500/40 p-4">
       <Eyebrow className="mb-3">{title}</Eyebrow>
-      {winners.length === 0 && <p className="text-zinc-500">Ingen stemmer</p>}
-      <div className="flex flex-wrap gap-4">
-        {winners.map((w) => (
-          <div key={w.id} className="flex items-center gap-3">
-            <Photo photo={w.photo} name={w.name} className="w-16 h-16" />
-            <span className="font-serif text-2xl">{w.name}</span>
-          </div>
-        ))}
-      </div>
-      {winners.length > 1 && (
-        <p className="text-amber-400 mt-3 text-sm">Uavgjort! Avgjør det på stedet, eller vis dem som delt seier.</p>
+      {leaders.length === 0 && <p className="text-zinc-500">Ingen stemmer</p>}
+
+      {showChoice ? (
+        <div className="space-y-3">
+          <p className="text-amber-400 text-sm">Uavgjort. Velg vinneren:</p>
+          {leaders.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              disabled={busy}
+              onClick={async () => {
+                await onChoose(kind, p.id)
+                setChoosing(false)
+              }}
+              className={`flex w-full items-center gap-3 border px-2 py-2 text-left transition-colors ${
+                p.id === chosen ? 'border-amber-500' : 'border-zinc-800 hover:border-amber-500'
+              }`}
+            >
+              <Photo photo={p.photo} name={p.name} className="w-12 h-12 shrink-0" />
+              <span className="font-serif text-xl">{p.name}</span>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-4">
+          {people
+            .filter((p) => winnerIds.includes(p.id))
+            .map((w) => (
+              <div key={w.id} className="flex items-center gap-3">
+                <Photo photo={w.photo} name={w.name} className="w-16 h-16" />
+                <span className="font-serif text-2xl">{w.name}</span>
+              </div>
+            ))}
+        </div>
+      )}
+
+      {chosen && !choosing && (
+        <p className="text-zinc-500 text-sm mt-3">
+          Valgt av deg ved uavgjort.{' '}
+          <button type="button" onClick={() => setChoosing(true)} className="underline underline-offset-2 hover:text-zinc-300">
+            Endre
+          </button>
+        </p>
       )}
     </section>
   )
 }
 
-function Overview({ data, act, busy }) {
+function Overview({ data, act, choose, busy }) {
   const people = data.participants
   const registered = people.filter((p) => p.registered)
   const voted1 = registered.filter((p) => p.voted1).length
   const voted2 = registered.filter((p) => p.voted2).length
   const round = data.phase === 'final' ? 2 : 1
   const missing = registered.filter((p) => (round === 2 ? !p.voted2 : !p.voted1))
+  const undecided = data.winners_best.length > 1 || data.winners_worst.length > 1
 
   return (
     <div className="space-y-8">
@@ -164,8 +203,8 @@ function Overview({ data, act, busy }) {
       {data.phase === 'final' && (
         <section className="space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
-            <Ranking title="Beste bart – finale" people={people} field="r2_best" limitTo={data.final_best} highlight={data.winners_best} highlightLabel="Leder" />
-            <Ranking title="Verste bart – finale" people={people} field="r2_worst" limitTo={data.final_worst} highlight={data.winners_worst} highlightLabel="Leder" />
+            <Ranking title="Beste bart – finale" people={people} field="r2_best" limitTo={data.final_best} highlight={data.leaders_best} highlightLabel="Leder" />
+            <Ranking title="Verste bart – finale" people={people} field="r2_worst" limitTo={data.final_worst} highlight={data.leaders_worst} highlightLabel="Leder" />
           </div>
           <div className="flex flex-wrap gap-3">
             <Button
@@ -186,8 +225,8 @@ function Overview({ data, act, busy }) {
       {data.phase === 'done' && (
         <section className="space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
-            <WinnerBox title="Årets beste bart" ids={data.winners_best} people={people} />
-            <WinnerBox title="Årets verste bart" ids={data.winners_worst} people={people} />
+            <WinnerBox title="Årets beste bart" kind="best" data={data} people={people} onChoose={choose} busy={busy} />
+            <WinnerBox title="Årets verste bart" kind="worst" data={data} people={people} onChoose={choose} busy={busy} />
           </div>
           <div className="grid md:grid-cols-2 gap-4">
             <Ranking title="Beste bart – finale" people={people} field="r2_best" limitTo={data.final_best} />
@@ -199,7 +238,10 @@ function Overview({ data, act, busy }) {
                 Skjul vinnerne igjen
               </Button>
             ) : (
-              <Button onClick={() => act('reveal', 'Vise vinnerne på storskjermen og alle telefonene?')} disabled={busy}>
+              <Button
+                onClick={() => act('reveal', 'Vise vinnerne på storskjermen og alle telefonene?')}
+                disabled={busy || undecided}
+              >
                 Vis vinnerne for alle
               </Button>
             )}
@@ -207,6 +249,9 @@ function Overview({ data, act, busy }) {
               Gjenåpne finalen
             </Button>
           </div>
+          {undecided && !data.reveal && (
+            <p className="text-zinc-500 text-sm">Velg vinneren der det er uavgjort før du viser vinnerne.</p>
+          )}
           <details className="border border-zinc-800 p-4">
             <summary className="cursor-pointer text-zinc-400">Resultat fra første runde</summary>
             <div className="grid md:grid-cols-2 gap-4 mt-4">
@@ -399,6 +444,19 @@ function Dashboard({ password, onLogout }) {
     if (error?.message === 'Feil passord.') onLogout(error)
   }, [error, onLogout])
 
+  async function choose(kind, id) {
+    setBusy(true)
+    setActionError(null)
+    try {
+      await rpc('admin_choose_winner', { p_password: password, p_kind: kind, p_id: id })
+      await refresh()
+    } catch (err) {
+      setActionError(err)
+    } finally {
+      setBusy(false)
+    }
+  }
+
   async function act(action, confirmText) {
     if (confirmText && !window.confirm(confirmText)) return
     setBusy(true)
@@ -446,7 +504,7 @@ function Dashboard({ password, onLogout }) {
         {error && error.message !== 'Feil passord.' && <ErrorText error={error} />}
         <ErrorText error={actionError} />
         {!data && !error && <p className="text-zinc-500">Laster …</p>}
-        {data && tab === 'oversikt' && <Overview data={data} act={act} busy={busy} />}
+        {data && tab === 'oversikt' && <Overview data={data} act={act} choose={choose} busy={busy} />}
         {data && tab === 'lapper' && <Slips people={data.participants} />}
         {data && tab === 'innstillinger' && (
           <Settings data={data} password={password} act={act} busy={busy} refresh={refresh} />

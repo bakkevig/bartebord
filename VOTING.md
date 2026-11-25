@@ -14,7 +14,7 @@ Digital voting for the year's best and worst mustache. Each participant gets a s
 2. **Round 1:** Voting opens by itself when all 22 have registered, or at 18:00 if not everyone has registered by then. The admin can also open it manually. Anyone not yet registered is asked to register before voting. They also become a candidate, but only for those who vote after they registered.
 3. **Snapshot:** The admin sees live results and who has not voted. Not everyone needs to have voted.
 4. **Final:** The admin presses «Start finalen». The top 3 in each category go through (if several are tied for 3rd place, all of them go through). Everyone votes again among the finalists.
-5. **Winners:** The admin ends the final and sees the winners. Ties are settled on the spot. Finally the admin presses «Vis vinnerne for alle», and the winners are shown on the big screen and on every phone.
+5. **Winners:** The admin ends the final and sees the winners. On a tie, the admin picks the winner among those tied before the winners can be revealed. Finally the admin presses «Vis vinnerne for alle», and the winners are shown on the big screen and on every phone.
 
 Nobody can vote for themselves, and each code gives one vote per round. The database stores who has voted, but not what each person voted.
 

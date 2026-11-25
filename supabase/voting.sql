@@ -43,6 +43,10 @@ create table if not exists voting.settings (
   admin_password_hash text
 );
 insert into voting.settings default values on conflict (id) do nothing;
+-- On a tie in the final, the admin picks the winner. Added separately so that
+-- re-running this file adds them to an existing table.
+alter table voting.settings add column if not exists winner_best uuid;
+alter table voting.settings add column if not exists winner_worst uuid;
 
 create table if not exists voting.participants (
   id uuid primary key default gen_random_uuid(),
@@ -172,11 +176,26 @@ returns uuid[] language sql stable set search_path = '' as $$
   select coalesce(array_agg(id), '{}') from voting.participants where registered_at is not null
 $$;
 
+-- The winner(s) of the final: the admin's pick if they chose one among those
+-- tied for first place, otherwise everyone tied for first place.
+create or replace function voting.winner_ids(p_kind text)
+returns uuid[] language sql stable set search_path = '' as $$
+  select case
+    when chosen is not null and chosen = any(leaders) then array[chosen]
+    else leaders
+  end
+  from (
+    select voting.top(2, p_kind, 1) as leaders,
+      case p_kind when 'best' then s.winner_best else s.winner_worst end as chosen
+    from voting.settings s
+  ) t
+$$;
+
 create or replace function voting.winners()
 returns jsonb language sql stable set search_path = '' as $$
   select jsonb_build_object(
-    'best', voting.people(voting.top(2, 'best', 1)),
-    'worst', voting.people(voting.top(2, 'worst', 1))
+    'best', voting.people(voting.winner_ids('best')),
+    'worst', voting.people(voting.winner_ids('worst'))
   )
 $$;
 
@@ -234,7 +253,10 @@ begin
   delete from voting.ballots where true;
   delete from voting.upload_tokens where true;
   update voting.participants set name = null, photo_path = null, registered_at = null where true;
-  update voting.settings set phase = 'registration', final_best = '{}', final_worst = '{}', reveal = false where id = 1;
+  update voting.settings
+  set phase = 'registration', final_best = '{}', final_worst = '{}', reveal = false,
+      winner_best = null, winner_worst = null
+  where id = 1;
 end $$;
 
 -- ---------------------------------------------------------------------------
@@ -447,8 +469,11 @@ begin
     'final_worst', to_jsonb(s.final_worst),
     'preview_best', to_jsonb(voting.top(1, 'best', 3)),
     'preview_worst', to_jsonb(voting.top(1, 'worst', 3)),
-    'winners_best', to_jsonb(voting.top(2, 'best', 1)),
-    'winners_worst', to_jsonb(voting.top(2, 'worst', 1)),
+    -- Everyone tied for first place in the final, and the admin's pick on a tie.
+    'leaders_best', to_jsonb(voting.top(2, 'best', 1)),
+    'leaders_worst', to_jsonb(voting.top(2, 'worst', 1)),
+    'winners_best', to_jsonb(voting.winner_ids('best')),
+    'winners_worst', to_jsonb(voting.winner_ids('worst')),
     'participants', (
       select coalesce(jsonb_agg(jsonb_build_object(
         'id', p.id,
@@ -492,7 +517,9 @@ begin
       if cardinality(v_best) = 0 or cardinality(v_worst) = 0 then
         raise exception 'Det må være minst én stemme i hver kategori før finalen kan starte.';
       end if;
-      update voting.settings set phase = 'final', final_best = v_best, final_worst = v_worst where id = 1;
+      update voting.settings
+      set phase = 'final', final_best = v_best, final_worst = v_worst, winner_best = null, winner_worst = null
+      where id = 1;
 
     when 'back_to_round1' then
       if v_phase <> 'final' then raise exception 'Finalen er ikke startet.'; end if;
@@ -507,10 +534,17 @@ begin
 
     when 'reopen_final' then
       if v_phase <> 'done' then raise exception 'Avstemningen er ikke avsluttet.'; end if;
-      update voting.settings set phase = 'final', reveal = false where id = 1;
+      -- The votes may change, so a pick made on a tie no longer applies.
+      update voting.settings set phase = 'final', reveal = false, winner_best = null, winner_worst = null where id = 1;
 
     when 'reveal' then
       if v_phase <> 'done' then raise exception 'Avslutt finalen før vinnerne vises.'; end if;
+      if cardinality(voting.winner_ids('best')) > 1 then
+        raise exception 'Det er uavgjort om årets beste bart. Velg vinneren før du viser vinnerne.';
+      end if;
+      if cardinality(voting.winner_ids('worst')) > 1 then
+        raise exception 'Det er uavgjort om årets verste bart. Velg vinneren før du viser vinnerne.';
+      end if;
       update voting.settings set reveal = true where id = 1;
 
     when 'hide' then
@@ -537,6 +571,27 @@ begin
   perform voting.sync_phase();
 end $$;
 
+-- On a tie in the final, the admin picks the winner among those tied for first place.
+create or replace function public.admin_choose_winner(p_password text, p_kind text, p_id uuid)
+returns void language plpgsql security definer set search_path = '' as $$
+begin
+  perform voting.check_admin(p_password);
+  if voting.sync_phase() <> 'done' then
+    raise exception 'Avslutt finalen før du velger vinner.';
+  end if;
+  if p_kind not in ('best', 'worst') then
+    raise exception 'Ukjent kategori: %', p_kind;
+  end if;
+  if not p_id = any(voting.top(2, p_kind, 1)) then
+    raise exception 'Vinneren må være en av dem som står likt på førsteplass.';
+  end if;
+  if p_kind = 'best' then
+    update voting.settings set winner_best = p_id where id = 1;
+  else
+    update voting.settings set winner_worst = p_id where id = 1;
+  end if;
+end $$;
+
 -- ---------------------------------------------------------------------------
 -- Privileges: the site (roles anon/authenticated) may only call the
 -- functions above, nothing else.
@@ -553,6 +608,7 @@ revoke all on function public.screen_state() from public;
 revoke all on function public.admin_overview(text) from public;
 revoke all on function public.admin_action(text, text) from public;
 revoke all on function public.admin_set_expected_count(text, int) from public;
+revoke all on function public.admin_choose_winner(text, text, uuid) from public;
 grant execute on function public.participant_state(text) to anon, authenticated;
 grant execute on function public.register_start(text) to anon, authenticated;
 grant execute on function public.register(text, text, uuid) to anon, authenticated;
@@ -561,6 +617,7 @@ grant execute on function public.screen_state() to anon, authenticated;
 grant execute on function public.admin_overview(text) to anon, authenticated;
 grant execute on function public.admin_action(text, text) to anon, authenticated;
 grant execute on function public.admin_set_expected_count(text, int) to anon, authenticated;
+grant execute on function public.admin_choose_winner(text, text, uuid) to anon, authenticated;
 
 -- ---------------------------------------------------------------------------
 -- Photo storage
