@@ -10,7 +10,7 @@ function App() {
           <div className="flex gap-6 text-sm">
             <a href="#om" className="text-zinc-400 hover:text-amber-500 transition-colors">Om</a>
             <a href="#lokaler" className="text-zinc-400 hover:text-amber-500 transition-colors">Hvor</a>
-            <a href="#movember" className="text-zinc-400 hover:text-amber-500 transition-colors">Movember</a>
+            <a href="#kuvert" className="text-zinc-400 hover:text-amber-500 transition-colors">Kuvert</a>
             <a href="#kontakt" className="text-zinc-400 hover:text-amber-500 transition-colors">Kontakt</a>
           </div>
         </div>
@@ -122,33 +122,44 @@ function App() {
         </div>
       </section>
 
-      {/* Movember Section */}
-      <section id="movember" className="py-24 px-6 bg-zinc-900">
+      {/* Payment Section */}
+      <section id="kuvert" className="py-24 px-6 bg-zinc-900">
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
-            Veldedighet
+            Kuvert og Movember
           </p>
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 mb-6">
-            Movember
+            Årets kuvert
           </h2>
-          <p className="text-zinc-400 text-lg leading-relaxed mb-10">
-            Bartebord støtter Movember-stiftelsen. I løpet av november samler vi inn penger til menns helse.
+          <div className="text-zinc-400 text-lg leading-relaxed space-y-6 mb-10">
+            <p>
+              Kuvertprisen er minimum kr 2 000 per bartebror. Overskuddet går i sin helhet til Movember, og vi donerer det på vegne av deltakerne.
+            </p>
+            <p>
+              Ønsker du å støtte menns helse ytterligere, står du fritt til å betale mer – alt utover kostnadene går uavkortet til Movember.
+            </p>
+          </div>
+          <p className="text-zinc-300 text-lg mb-8">
+            Betal med Vipps innen <span className="text-amber-500">12. desember</span>
           </p>
-          <div className="bg-white p-4 rounded-lg inline-block mb-8">
+          <div className="bg-white p-2 rounded-lg inline-block mb-4">
             <img
-              src="/movember-qr.png"
-              alt="QR-kode til Movember-innsamling"
+              src="/vipps-qr.png"
+              alt="QR-kode for betaling med Vipps"
               className="w-48 h-48"
             />
           </div>
+          <p className="text-zinc-500 mb-8">
+            Boksnummer <span className="text-zinc-300 font-semibold tracking-wider">2261SC</span>
+          </p>
           <div>
             <a
-              href="https://movember.com/t/bartebord-2025"
+              href="https://qr.vipps.no/box/b9246fa5-45c9-4177-a7ec-12ab9fa16a9c/pay-in"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block text-lg text-zinc-950 bg-amber-500 hover:bg-amber-400 px-8 py-4 font-semibold transition-colors"
             >
-              Doner til Movember
+              Betal med Vipps
             </a>
           </div>
         </div>
@@ -156,7 +167,7 @@ function App() {
 
       {/* Board Section */}
       <section className="py-24 px-6 bg-zinc-950">
-        <div className="max-w-2xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center">
           <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
             Styret
           </p>
@@ -166,7 +177,7 @@ function App() {
           <p className="text-zinc-400 text-lg leading-relaxed mb-12">
             Bartebord arrangeres av en gruppe ildsjeler kjent som Bartebord Board of Directors.
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-6">
+          <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Alf Georg Grastveit</div>
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Chris Bateman</div>
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Eivind Bakkevig</div>
