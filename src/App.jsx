@@ -137,7 +137,7 @@ function App() {
                 Kuvertprisen er minst kr 2 000 per bartebror. Det som blir til overs etter middagen, gir vi til Movember på vegne av deltakerne. Vil du gi mer, betaler du bare inn et høyere beløp.
               </p>
               <p>
-                Movember jobber med menns helse: psykisk helse og selvmordsforebygging, prostatakreft og testikkelkreft. For oss er det arbeidet med menns psykiske helse som betyr mest.
+                Movember jobber med menns helse: psykisk helse og selvmordsforebygging, prostatakreft og testikkelkreft. For oss er det arbeidet med menns psykiske helse som betyr mest. Selvmord kan i stor grad forebygges, og det begynner med at vi snakker sammen.
               </p>
               <p>
                 <a
@@ -184,7 +184,7 @@ function App() {
         <div className="max-w-5xl mx-auto px-6">
           <SectionHeading eyebrow="Styret" title="Bartebord Board of Directors" />
           <p className="text-zinc-400 text-lg xl:text-xl leading-relaxed mb-10">
-            Bartebord arrangeres av styret. Allergier og andre henvendelser kan rettes til ditt foretrukne styremedlem.
+            Bartebord arrangeres av en gruppe ildsjeler kjent som Bartebord Board of Directors. Allergier og andre henvendelser kan rettes til ditt foretrukne styremedlem.
           </p>
           <div className="flex flex-wrap gap-x-10 gap-y-4">
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Alf Georg Grastveit</div>
