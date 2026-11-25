@@ -33,6 +33,10 @@ npm run build
 npm run preview
 ```
 
+## Bartekåringen
+
+The voting for the year's best and worst mustache lives at `/stem/`, `/admin/` and `/skjerm/`, backed by Supabase. Setup and use are described in Norwegian in [KAARING.md](KAARING.md).
+
 ## Deployment
 
 The site automatically deploys to GitHub Pages when changes are pushed to `main`. The GitHub Actions workflow handles building and deployment.

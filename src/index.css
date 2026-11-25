@@ -3,3 +3,22 @@
 @theme {
   --font-serif: "Playfair Display", serif;
 }
+
+/* Utskrift av lapper til kåringen (admin → Lapper) */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+  body {
+    background: white !important;
+  }
+  .slips {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .slip {
+    border-style: dashed;
+    height: 68mm;
+  }
+}
