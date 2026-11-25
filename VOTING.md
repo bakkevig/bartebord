@@ -79,6 +79,25 @@ Open `/admin/`, log in and go to **Lapper → Skriv ut**. There are eight slips 
 
 Photos are kept after the evening, in Supabase Storage under `mustaches`.
 
+## Testing locally
+
+Requires Docker Desktop. Start Supabase from the repository folder:
+
+```bash
+npx supabase start
+```
+
+This also runs `supabase/voting.sql` and the test settings in `supabase/seed.sql`: admin password `test-passord-123`, ten codes, and voting that opens once 3 have registered. `npx supabase db reset` starts over with fresh codes.
+
+Create `.env.local` in the repository root with the API URL and Publishable key that `npx supabase status` prints:
+
+```
+VITE_SUPABASE_URL=http://127.0.0.1:54321
+VITE_SUPABASE_ANON_KEY=sb_publishable_...
+```
+
+Then run `npm run dev` and open `http://localhost:5173/admin/`. Stop Supabase with `npx supabase stop`.
+
 ## Useful SQL
 
 ```sql
