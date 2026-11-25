@@ -10,7 +10,7 @@ function App() {
           <div className="flex gap-6 text-sm">
             <a href="#om" className="text-zinc-400 hover:text-amber-500 transition-colors">Om</a>
             <a href="#lokaler" className="text-zinc-400 hover:text-amber-500 transition-colors">Hvor</a>
-            <a href="#movember" className="text-zinc-400 hover:text-amber-500 transition-colors">Movember</a>
+            <a href="#kuvert" className="text-zinc-400 hover:text-amber-500 transition-colors">Kuvert</a>
             <a href="#kontakt" className="text-zinc-400 hover:text-amber-500 transition-colors">Kontakt</a>
           </div>
         </div>
@@ -122,35 +122,33 @@ function App() {
         </div>
       </section>
 
-      {/* Movember Section */}
-      <section id="movember" className="py-24 px-6 bg-zinc-900">
+      {/* Payment Section */}
+      <section id="kuvert" className="py-24 px-6 bg-zinc-900">
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
-            Veldedighet
+            Kuvert og Movember
           </p>
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 mb-6">
-            Movember
+            Årets kuvert
           </h2>
-          <p className="text-zinc-400 text-lg leading-relaxed mb-10">
-            Bartebord støtter Movember-stiftelsen. I løpet av november samler vi inn penger til menns helse.
-          </p>
-          <div className="bg-white p-4 rounded-lg inline-block mb-8">
+          <div className="text-zinc-400 text-lg leading-relaxed space-y-6 mb-10">
+            <p>
+              Kuvertprisen er minimum kr 2 000 per bartebror. Overskuddet går i sin helhet til Movember, og vi donerer det på vegne av deltakerne.
+            </p>
+            <p>
+              Ønsker du å støtte menns helse ytterligere, står du fritt til å betale mer – alt utover kostnadene går uavkortet til Movember.
+            </p>
+          </div>
+          <div className="bg-white p-4 rounded-lg inline-block mb-6">
             <img
-              src="/movember-qr.png"
-              alt="QR-kode til Movember-innsamling"
+              src="/vipps-qr.png"
+              alt="QR-kode for betaling med Vipps"
               className="w-48 h-48"
             />
           </div>
-          <div>
-            <a
-              href="https://movember.com/t/bartebord-2025"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block text-lg text-zinc-950 bg-amber-500 hover:bg-amber-400 px-8 py-4 font-semibold transition-colors"
-            >
-              Doner til Movember
-            </a>
-          </div>
+          <p className="text-zinc-300">
+            Betal med Vipps innen <span className="text-amber-500">12. desember</span>
+          </p>
         </div>
       </section>
 
