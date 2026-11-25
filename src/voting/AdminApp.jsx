@@ -276,9 +276,10 @@ function SlipCard({ code }) {
       <div className="w-32 h-32 shrink-0" dangerouslySetInnerHTML={{ __html: svg }} />
       <div className="min-w-0">
         <p className="font-serif text-xl font-bold">Bartebord 2026</p>
-        <p className="text-sm mt-1 leading-snug">Skann koden med mobilen, ta en selfie og stem på årets beste og verste bart.</p>
+        <p className="text-sm mt-1 leading-snug">Skann koden, ta en selfie og stem.</p>
         <p className="text-xs mt-3 text-zinc-600">Eller gå til {window.location.host}/vote og skriv inn:</p>
         <p className="font-mono text-2xl tracking-[0.2em] font-bold mt-1">{formatCode(code)}</p>
+        <p className="text-xs mt-3 font-semibold">Ta vare på lappen hele kvelden. Du trenger koden for å stemme.</p>
       </div>
     </div>
   )
