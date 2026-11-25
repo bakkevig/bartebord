@@ -139,16 +139,29 @@ function App() {
               Ønsker du å støtte menns helse ytterligere, står du fritt til å betale mer – alt utover kostnadene går uavkortet til Movember.
             </p>
           </div>
-          <div className="bg-white p-4 rounded-lg inline-block mb-6">
+          <p className="text-zinc-300 text-lg mb-8">
+            Betal med Vipps innen <span className="text-amber-500">12. desember</span>
+          </p>
+          <div className="bg-white p-2 rounded-lg inline-block mb-4">
             <img
               src="/vipps-qr.png"
               alt="QR-kode for betaling med Vipps"
               className="w-48 h-48"
             />
           </div>
-          <p className="text-zinc-300">
-            Betal med Vipps innen <span className="text-amber-500">12. desember</span>
+          <p className="text-zinc-500 mb-8">
+            Boksnummer <span className="text-zinc-300 font-semibold tracking-wider">2261SC</span>
           </p>
+          <div>
+            <a
+              href="https://qr.vipps.no/box/b9246fa5-45c9-4177-a7ec-12ab9fa16a9c/pay-in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-lg text-zinc-950 bg-amber-500 hover:bg-amber-400 px-8 py-4 font-semibold transition-colors"
+            >
+              Betal med Vipps
+            </a>
+          </div>
         </div>
       </section>
 
