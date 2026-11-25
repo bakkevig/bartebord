@@ -30,7 +30,8 @@ export function Button({ variant = 'primary', className = '', ...props }) {
       'bg-amber-500 text-zinc-950 hover:bg-amber-400 font-semibold disabled:bg-zinc-700 disabled:text-zinc-400',
     secondary:
       'border border-zinc-700 text-zinc-200 hover:border-amber-500 hover:text-amber-500 disabled:text-zinc-600 disabled:border-zinc-800',
-    danger: 'border border-red-900 text-red-300 hover:border-red-500 hover:text-red-200',
+    danger:
+      'border border-red-900 text-red-300 hover:border-red-500 hover:text-red-200 disabled:text-zinc-600 disabled:border-zinc-800',
   }
   return (
     <button

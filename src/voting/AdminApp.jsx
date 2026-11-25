@@ -309,6 +309,86 @@ function Slips({ people }) {
   )
 }
 
+function Settings({ data, password, act, busy, refresh }) {
+  const [count, setCount] = useState(String(data.expected_count))
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState(null)
+  const [confirmText, setConfirmText] = useState('')
+
+  const parsed = Number.parseInt(count, 10)
+  const countChanged = Number.isFinite(parsed) && parsed !== data.expected_count
+
+  async function saveCount(e) {
+    e.preventDefault()
+    setSaving(true)
+    setError(null)
+    try {
+      await rpc('admin_set_expected_count', { p_password: password, p_count: parsed })
+      await refresh()
+    } catch (err) {
+      setError(err)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div className="space-y-12 max-w-xl">
+      <form onSubmit={saveCount} className="space-y-4">
+        <h3 className="font-serif text-xl">Antall deltakere</h3>
+        <p className="text-zinc-400">
+          Avstemningen åpner av seg selv når så mange har registrert seg, eller kl. {formatTime(data.voting_opens_at)}.
+          Setter du et tall som allerede er nådd, åpner den med en gang.
+        </p>
+        <ErrorText error={error} />
+        <div className="flex gap-3">
+          <input
+            type="number"
+            inputMode="numeric"
+            min={1}
+            max={500}
+            value={count}
+            onChange={(e) => setCount(e.target.value)}
+            className="w-28 bg-zinc-900 border border-zinc-700 focus:border-amber-500 outline-none px-4 py-3 text-lg"
+            aria-label="Antall deltakere"
+          />
+          <Button type="submit" variant="secondary" disabled={!countChanged || saving}>
+            Lagre
+          </Button>
+        </div>
+      </form>
+
+      <section className="space-y-4">
+        <h3 className="font-serif text-xl">Nullstill</h3>
+        <p className="text-zinc-400">
+          Sletter alle registreringer og stemmer og setter avstemningen tilbake til registrering, for eksempel etter en
+          generalprøve. Kodene beholdes, så lapper som er skrevet ut, virker fortsatt. Bildene blir liggende i Supabase.
+        </p>
+        <label className="block">
+          <span className="block text-sm text-zinc-400 mb-2">Skriv NULLSTILL for å bekrefte</span>
+          <input
+            value={confirmText}
+            onChange={(e) => setConfirmText(e.target.value)}
+            autoComplete="off"
+            autoCapitalize="characters"
+            className="w-full bg-zinc-900 border border-zinc-700 focus:border-red-500 outline-none px-4 py-3 text-lg"
+          />
+        </label>
+        <Button
+          variant="danger"
+          disabled={confirmText.trim().toUpperCase() !== 'NULLSTILL' || busy}
+          onClick={async () => {
+            await act('reset')
+            setConfirmText('')
+          }}
+        >
+          Nullstill alt
+        </Button>
+      </section>
+    </div>
+  )
+}
+
 function Dashboard({ password, onLogout }) {
   const [tab, setTab] = useState('oversikt')
   const [busy, setBusy] = useState(false)
@@ -345,6 +425,7 @@ function Dashboard({ password, onLogout }) {
             {[
               ['oversikt', 'Oversikt'],
               ['lapper', 'Lapper'],
+              ['innstillinger', 'Innstillinger'],
             ].map(([id, label]) => (
               <button
                 key={id}
@@ -367,6 +448,9 @@ function Dashboard({ password, onLogout }) {
         {!data && !error && <p className="text-zinc-500">Laster …</p>}
         {data && tab === 'oversikt' && <Overview data={data} act={act} busy={busy} />}
         {data && tab === 'lapper' && <Slips people={data.participants} />}
+        {data && tab === 'innstillinger' && (
+          <Settings data={data} password={password} act={act} busy={busy} refresh={refresh} />
+        )}
       </main>
     </div>
   )

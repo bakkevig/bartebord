@@ -50,20 +50,11 @@ The site is rebuilt the next time something is pushed to `main`. You can also st
 
 ### 4. Dress rehearsal
 
-Test with a few phones before the evening. For example, make voting open once 3 have registered:
+Test with a few phones before the evening. On `/admin/` under **Innstillinger**, set the number of participants to 3 so voting opens once 3 have registered.
 
-```sql
-update voting.settings set expected_count = 3;
-```
+Go through the whole flow: registration, round 1, final and reveal. Afterwards, under **Innstillinger**, reset (type NULLSTILL to confirm) and set the number of participants back to 22.
 
-Go through the whole flow: registration, round 1, final and reveal. Afterwards, reset and restore the settings:
-
-```sql
-select voting.reset();
-update voting.settings set expected_count = 22, voting_opens_at = '2026-11-28 18:00 Europe/Oslo';
-```
-
-`voting.reset()` deletes registrations and votes but keeps the codes, so printed slips still work. Test photos stay in Storage under `mustaches` and can be deleted there if you like.
+Resetting deletes registrations and votes but keeps the codes, so printed slips still work. Test photos stay in Storage under `mustaches` and can be deleted there if you like.
 
 ### 5. Print the slips
 
@@ -101,8 +92,8 @@ Then run `npm run dev` and open `http://localhost:5173/admin/`. Stop Supabase wi
 ## Useful SQL
 
 ```sql
--- Change opening time or number of participants
-update voting.settings set voting_opens_at = '2026-11-28 18:00 Europe/Oslo', expected_count = 22;
+-- Change the opening time
+update voting.settings set voting_opens_at = '2026-11-28 18:00 Europe/Oslo' where id = 1;
 
 -- Create more codes
 select * from voting.generate_codes(5);

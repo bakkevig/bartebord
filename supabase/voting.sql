@@ -516,9 +516,25 @@ begin
     when 'hide' then
       update voting.settings set reveal = false where id = 1;
 
+    -- Same as voting.reset(): keeps the codes, so printed slips still work.
+    when 'reset' then
+      perform voting.reset();
+
     else
       raise exception 'Ukjent handling: %', p_action;
   end case;
+end $$;
+
+-- Voting opens by itself once this many have registered (or at voting_opens_at).
+create or replace function public.admin_set_expected_count(p_password text, p_count int)
+returns void language plpgsql security definer set search_path = '' as $$
+begin
+  perform voting.check_admin(p_password);
+  if p_count is null or p_count < 1 or p_count > 500 then
+    raise exception 'Antall deltakere må være mellom 1 og 500.';
+  end if;
+  update voting.settings set expected_count = p_count where id = 1;
+  perform voting.sync_phase();
 end $$;
 
 -- ---------------------------------------------------------------------------
@@ -536,6 +552,7 @@ revoke all on function public.cast_vote(text, uuid, uuid) from public;
 revoke all on function public.screen_state() from public;
 revoke all on function public.admin_overview(text) from public;
 revoke all on function public.admin_action(text, text) from public;
+revoke all on function public.admin_set_expected_count(text, int) from public;
 grant execute on function public.participant_state(text) to anon, authenticated;
 grant execute on function public.register_start(text) to anon, authenticated;
 grant execute on function public.register(text, text, uuid) to anon, authenticated;
@@ -543,6 +560,7 @@ grant execute on function public.cast_vote(text, uuid, uuid) to anon, authentica
 grant execute on function public.screen_state() to anon, authenticated;
 grant execute on function public.admin_overview(text) to anon, authenticated;
 grant execute on function public.admin_action(text, text) to anon, authenticated;
+grant execute on function public.admin_set_expected_count(text, int) to anon, authenticated;
 
 -- ---------------------------------------------------------------------------
 -- Photo storage
