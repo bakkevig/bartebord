@@ -184,7 +184,7 @@ function App() {
         <div className="max-w-5xl mx-auto px-6">
           <SectionHeading eyebrow="Styret" title="Bartebord Board of Directors" />
           <p className="text-zinc-400 text-lg xl:text-xl leading-relaxed mb-10">
-            Bartebord arrangeres av en gruppe ildsjeler kjent som Bartebord Board of Directors. Allergier og andre henvendelser kan rettes til ditt foretrukne styremedlem.
+            Bartebord arrangeres av en gruppe ildsjeler kjent som Bartebord Board of Directors.
           </p>
           <div className="flex flex-wrap gap-x-10 gap-y-4">
             <div className="text-lg md:text-xl font-serif text-zinc-100 whitespace-nowrap">Alf Georg Grastveit</div>
