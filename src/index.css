@@ -2,6 +2,18 @@
 
 @theme {
   --font-serif: "Playfair Display", serif;
+  --animate-step-in: step-in 280ms ease-out;
+
+  @keyframes step-in {
+    from {
+      opacity: 0;
+      transform: translateX(32px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 /* Printing voting slips (admin → Lapper) */

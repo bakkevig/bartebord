@@ -282,13 +282,30 @@ function Vote({ code, state, onDone }) {
 
   if (step === 'best' || step === 'worst') {
     const isBest = step === 'best'
+    const chosenBest = !isBest && best ? byId[best] : null
     return (
-      <div className="space-y-6">
+      <div key={step} className="space-y-6 motion-safe:animate-step-in">
+        {chosenBest && (
+          <button
+            type="button"
+            onClick={() => setStep('best')}
+            className="flex items-center gap-3 text-left text-sm text-zinc-400 hover:text-zinc-200"
+          >
+            <Photo photo={chosenBest.photo} name={chosenBest.name} className="w-10 h-10 shrink-0" />
+            <span>
+              Beste bart: <span className="text-zinc-200">{chosenBest.name}</span>
+              <span className="block text-xs text-zinc-500 underline underline-offset-2">Endre</span>
+            </span>
+          </button>
+        )}
         <div>
           <Eyebrow className="mb-3">
             {roundLabel} · {isBest || !hasBest ? '1' : '2'} av {hasBest && hasWorst ? 2 : 1}
           </Eyebrow>
-          <Title>{isBest ? 'Årets beste bart' : 'Årets verste bart'}</Title>
+          <Title>
+            Årets{' '}
+            <span className={isBest ? 'text-amber-400' : 'text-rose-400'}>{isBest ? 'beste' : 'verste'}</span> bart
+          </Title>
           <p className="text-zinc-400 mt-3">
             {final
               ? 'Velg blant finalistene. '
@@ -301,17 +318,12 @@ function Vote({ code, state, onDone }) {
           selected={isBest ? best : worst}
           onSelect={(id) => choose(step, id)}
         />
-        {!isBest && hasBest && (
-          <Button variant="secondary" onClick={() => setStep('best')} className="w-full">
-            Tilbake
-          </Button>
-        )}
       </div>
     )
   }
 
   return (
-    <div className="space-y-8">
+    <div key="confirm" className="space-y-8 motion-safe:animate-step-in">
       <div>
         <Eyebrow className="mb-3">{roundLabel}</Eyebrow>
         <Title>Er du sikker?</Title>
@@ -319,11 +331,11 @@ function Vote({ code, state, onDone }) {
       </div>
       <div className="grid grid-cols-2 gap-4">
         {[
-          ['Beste bart', best, 'best'],
-          ['Verste bart', worst, 'worst'],
-        ].map(([label, id, kind]) => (
+          ['Beste bart', best, 'best', 'text-amber-500'],
+          ['Verste bart', worst, 'worst', 'text-rose-400'],
+        ].map(([label, id, kind, color]) => (
           <div key={kind}>
-            <p className="text-amber-500 text-sm uppercase tracking-wider mb-2">{label}</p>
+            <p className={`${color} text-sm uppercase tracking-wider mb-2`}>{label}</p>
             {id ? (
               <button type="button" onClick={() => setStep(kind)} className="block w-full text-left">
                 <Photo photo={byId[id].photo} name={byId[id].name} className="w-full aspect-square" />
