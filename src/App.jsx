@@ -1,13 +1,47 @@
+const MAP_PIN = (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+)
+
+function MapLink({ href }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-amber-500 transition-colors"
+    >
+      {MAP_PIN}
+      Se på kart
+    </a>
+  )
+}
+
+function SectionHeading({ eyebrow, title, className = 'mb-6' }) {
+  return (
+    <>
+      <p className="text-amber-500 uppercase tracking-[0.3em] text-sm text-center mb-4">
+        {eyebrow}
+      </p>
+      <h2 className={`text-3xl md:text-4xl xl:text-5xl font-serif font-bold text-zinc-100 text-center ${className}`}>
+        {title}
+      </h2>
+    </>
+  )
+}
+
 function App() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-zinc-950/90 backdrop-blur-sm border-b border-zinc-800/50">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="#hjem" className="font-serif text-lg text-zinc-100 hover:text-amber-500 transition-colors">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <a href="#hjem" className="font-serif text-lg md:text-xl text-zinc-100 hover:text-amber-500 transition-colors">
             Bartebord
           </a>
-          <div className="flex gap-6 text-sm">
+          <div className="flex gap-6 md:gap-8 text-sm md:text-base">
             <a href="#om" className="text-zinc-400 hover:text-amber-500 transition-colors">Om</a>
             <a href="#lokaler" className="text-zinc-400 hover:text-amber-500 transition-colors">Hvor</a>
             <a href="#kuvert" className="text-zinc-400 hover:text-amber-500 transition-colors">Kuvert</a>
@@ -30,7 +64,7 @@ function App() {
           <h1 className="text-5xl md:text-7xl font-serif font-bold text-zinc-100 mb-4">
             Bartebord
           </h1>
-          <p className="text-xl md:text-2xl text-zinc-300 max-w-md">
+          <p className="text-xl md:text-2xl text-zinc-300 max-w-md md:max-w-none">
             En feiring av barter i alle størrelser og fasonger
           </p>
           <p className="text-amber-500 text-lg md:text-xl font-serif mt-8">
@@ -46,14 +80,9 @@ function App() {
 
       {/* About Section */}
       <section id="om" className="py-24 px-6 bg-zinc-900">
-        <div className="max-w-2xl mx-auto text-center">
-          <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
-            Tradisjonen
-          </p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 mb-8">
-            Hva er Bartebord?
-          </h2>
-          <div className="text-zinc-400 text-lg leading-relaxed space-y-6">
+        <div className="max-w-2xl xl:max-w-3xl mx-auto text-center">
+          <SectionHeading eyebrow="Tradisjonen" title="Hva er Bartebord?" className="mb-8" />
+          <div className="text-zinc-400 text-lg xl:text-xl leading-relaxed space-y-6">
             <p>
               Bartebord er en årlig feiring av barten – i alle dens størrelser og fasonger. Hver november samles menn i mørke dresser til en aften med stil, eleganse og godt selskap.
             </p>
@@ -66,57 +95,30 @@ function App() {
 
       {/* Practical Info Section */}
       <section id="lokaler" className="py-24 px-6 bg-zinc-950">
-        <div className="max-w-2xl mx-auto">
-          <p className="text-amber-500 uppercase tracking-[0.3em] text-sm text-center mb-4">
-            Bartebord 2026
-          </p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 text-center mb-4">
-            Lokaler
-          </h2>
-          <p className="text-zinc-400 text-lg text-center mb-16">Lørdag 28. november</p>
+        <div className="max-w-2xl lg:max-w-5xl mx-auto">
+          <SectionHeading eyebrow="Bartebord 2026" title="Lokaler" className="mb-4" />
+          <p className="text-zinc-400 text-lg xl:text-xl text-center mb-16">Lørdag 28. november</p>
 
-          <div className="space-y-8">
+          <div className="grid gap-8 lg:grid-cols-2">
             <div className="border border-zinc-800 p-8">
               <p className="text-amber-500 text-sm uppercase tracking-wider mb-2">Kl. 17.00 · Innledende skål</p>
-              <h3 className="text-2xl font-serif text-zinc-100 mb-2">
+              <h3 className="text-2xl xl:text-3xl font-serif text-zinc-100 mb-2">
                 Emne
               </h3>
-              <p className="text-zinc-500 mb-2">Kongsgårdbakken 3, 6. etasje, Stavanger</p>
-              <p className="text-zinc-500 text-sm mb-4">
+              <p className="text-zinc-400 mb-2">Kongsgårdbakken 3, 6. etasje, Stavanger</p>
+              <p className="text-zinc-400 text-sm leading-relaxed mb-4">
                 Inngangen ligger på hjørnet mot Domkirken, ved siden av NIO Space. Ring på knappen merket «Emne».
               </p>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Kongsgårdbakken+3+Stavanger"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-amber-500 transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                Se på kart
-              </a>
+              <MapLink href="https://www.google.com/maps/search/?api=1&query=Kongsgårdbakken+3+Stavanger" />
             </div>
 
             <div className="border border-zinc-800 p-8">
               <p className="text-amber-500 text-sm uppercase tracking-wider mb-2">Kl. 20.00 · Festmiddag</p>
-              <h3 className="text-2xl font-serif text-zinc-100 mb-2">
+              <h3 className="text-2xl xl:text-3xl font-serif text-zinc-100 mb-2">
                 Seid Grill & Cocktailbar
               </h3>
-              <p className="text-zinc-500 mb-4">Knud Holms gate 8, Stavanger</p>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Seid+Grill+%26+Cocktailbar+Knud+Holms+gate+8+Stavanger"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-amber-500 transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                Se på kart
-              </a>
+              <p className="text-zinc-400 mb-4">Knud Holms gate 8, Stavanger</p>
+              <MapLink href="https://www.google.com/maps/search/?api=1&query=Seid+Grill+%26+Cocktailbar+Knud+Holms+gate+8+Stavanger" />
             </div>
           </div>
         </div>
@@ -124,70 +126,64 @@ function App() {
 
       {/* Payment Section */}
       <section id="kuvert" className="py-24 px-6 bg-zinc-900">
-        <div className="max-w-2xl mx-auto text-center">
-          <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
-            Kuvert og Movember
-          </p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 mb-6">
-            Årets kuvert
-          </h2>
-          <div className="text-zinc-400 text-lg leading-relaxed space-y-6 mb-10">
-            <p>
-              Kuvertprisen er minimum kr 2 000 per bartebror. Overskuddet går i sin helhet til Movember, og vi donerer det på vegne av deltakerne.
-            </p>
-            <p>
-              Movember arbeider for menns helse, med psykisk helse og selvmordsforebygging, prostatakreft og testikkelkreft som hjertesaker. For oss er det menns psykiske helse som betyr mest. Selvmord kan i stor grad forebygges, og det begynner med at vi snakker sammen.
-            </p>
-            <p>
+        <div className="max-w-2xl lg:max-w-5xl mx-auto">
+          <SectionHeading eyebrow="Kuvert og Movember" title="Årets kuvert" className="mb-10 lg:mb-16" />
+          <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:gap-16 lg:items-center">
+            <div className="text-zinc-400 text-lg xl:text-xl leading-relaxed space-y-6 text-center lg:text-left mb-12 lg:mb-0">
+              <p>
+                Kuvertprisen er minimum kr 2 000 per bartebror. Overskuddet går i sin helhet til Movember, og vi donerer det på vegne av deltakerne.
+              </p>
+              <p>
+                Movember arbeider for menns helse, med psykisk helse og selvmordsforebygging, prostatakreft og testikkelkreft som hjertesaker. For oss er det menns psykiske helse som betyr mest. Selvmord kan i stor grad forebygges, og det begynner med at vi snakker sammen.
+              </p>
+              <p>
+                <a
+                  href="https://no.movember.com/mens-health/mental-health"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-zinc-300 hover:text-amber-500 transition-colors border-b border-zinc-700 hover:border-amber-500 pb-0.5"
+                >
+                  Les mer om Movembers arbeid for psykisk helse
+                </a>
+              </p>
+              <p>
+                Ønsker du å støtte menns helse ytterligere, står du fritt til å betale mer – alt utover kostnadene går uavkortet til Movember.
+              </p>
+            </div>
+
+            {/* On phones the button comes first (you can't scan your own screen); on desktop the QR code does */}
+            <div className="flex flex-col items-center gap-6 text-center lg:border lg:border-zinc-800 lg:p-10">
+              <p className="order-1 text-zinc-300 text-lg xl:text-xl">
+                Betal med Vipps innen <span className="text-amber-500 whitespace-nowrap">12. desember</span>
+              </p>
               <a
-                href="https://no.movember.com/mens-health/mental-health"
+                href="https://qr.vipps.no/box/b9246fa5-45c9-4177-a7ec-12ab9fa16a9c/pay-in"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-zinc-300 hover:text-amber-500 transition-colors border-b border-zinc-700 hover:border-amber-500 pb-0.5"
+                className="order-2 lg:order-4 inline-block text-lg text-zinc-950 bg-amber-500 hover:bg-amber-400 px-8 py-4 font-semibold transition-colors"
               >
-                Les mer om Movembers arbeid for psykisk helse
+                Betal med Vipps
               </a>
-            </p>
-            <p>
-              Ønsker du å støtte menns helse ytterligere, står du fritt til å betale mer – alt utover kostnadene går uavkortet til Movember.
-            </p>
-          </div>
-          <p className="text-zinc-300 text-lg mb-8">
-            Betal med Vipps innen <span className="text-amber-500">12. desember</span>
-          </p>
-          <div className="bg-white p-2 rounded-lg inline-block mb-4">
-            <img
-              src="/vipps-qr.png"
-              alt="QR-kode for betaling med Vipps"
-              className="w-48 h-48"
-            />
-          </div>
-          <p className="text-zinc-500 mb-8">
-            Boksnummer <span className="text-zinc-300 font-semibold tracking-wider">2261SC</span>
-          </p>
-          <div>
-            <a
-              href="https://qr.vipps.no/box/b9246fa5-45c9-4177-a7ec-12ab9fa16a9c/pay-in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block text-lg text-zinc-950 bg-amber-500 hover:bg-amber-400 px-8 py-4 font-semibold transition-colors"
-            >
-              Betal med Vipps
-            </a>
+              <div className="order-3 lg:order-2 bg-white p-2 rounded-lg">
+                <img
+                  src="/vipps-qr.png"
+                  alt="QR-kode for betaling med Vipps"
+                  className="w-40 h-40 lg:w-48 lg:h-48"
+                />
+              </div>
+              <p className="order-4 lg:order-3 text-zinc-400 -mt-2">
+                Boksnummer <span className="text-zinc-200 font-semibold tracking-wider">2261SC</span>
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Board Section */}
       <section className="py-24 px-6 bg-zinc-950">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
-            Styret
-          </p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 mb-6">
-            Bartebord Board of Directors
-          </h2>
-          <p className="text-zinc-400 text-lg leading-relaxed mb-12">
+        <div className="max-w-3xl xl:max-w-4xl mx-auto text-center">
+          <SectionHeading eyebrow="Styret" title="Bartebord Board of Directors" />
+          <p className="text-zinc-400 text-lg xl:text-xl leading-relaxed mb-12">
             Bartebord arrangeres av en gruppe ildsjeler kjent som Bartebord Board of Directors.
           </p>
           <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
@@ -199,27 +195,18 @@ function App() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="kontakt" className="py-24 px-6 bg-zinc-900">
-        <div className="max-w-2xl mx-auto text-center">
-          <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
-            Spørsmål?
-          </p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-zinc-100 mb-8">
-            Kontakt
-          </h2>
-          <a
-            href="mailto:post@bartebord.no"
-            className="text-xl text-zinc-300 hover:text-amber-500 transition-colors border-b border-zinc-700 hover:border-amber-500 pb-1"
-          >
-            post@bartebord.no
-          </a>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-8 px-6 bg-zinc-950 border-t border-zinc-900 text-center">
-        <p className="text-zinc-600 text-sm">&copy; {new Date().getFullYear()} Bartebord</p>
+      {/* Footer with contact */}
+      <footer id="kontakt" className="py-16 px-6 bg-zinc-900 text-center">
+        <p className="text-amber-500 uppercase tracking-[0.3em] text-sm mb-4">
+          Spørsmål?
+        </p>
+        <a
+          href="mailto:post@bartebord.no"
+          className="text-xl text-zinc-200 hover:text-amber-500 transition-colors border-b border-zinc-700 hover:border-amber-500 pb-1"
+        >
+          post@bartebord.no
+        </a>
+        <p className="text-zinc-400 text-sm mt-12">&copy; {new Date().getFullYear()} Bartebord</p>
       </footer>
     </div>
   )
