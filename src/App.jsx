@@ -151,7 +151,7 @@ function App() {
               </p>
             </div>
 
-            {/* On phones the button comes first (you can't scan your own screen); on desktop the QR code does */}
+            {/* On phones the QR code is hidden (you can't scan your own screen) and the button comes first; on desktop the QR code does */}
             <div className="flex flex-col items-start gap-6 border border-zinc-800 p-8 lg:p-10">
               <p className="order-1 text-zinc-300 text-lg xl:text-xl">
                 Betal med Vipps innen <span className="text-amber-500 whitespace-nowrap">12. desember</span>
@@ -164,7 +164,7 @@ function App() {
               >
                 Betal med Vipps
               </a>
-              <div className="order-3 lg:order-2 bg-white p-2 rounded-lg">
+              <div className="hidden md:block order-3 lg:order-2 bg-white p-2 rounded-lg">
                 <img
                   src="/vipps-qr.png"
                   alt="QR-kode for betaling med Vipps"
