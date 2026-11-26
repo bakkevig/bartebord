@@ -354,11 +354,34 @@ function Slips({ people }) {
   )
 }
 
-function Settings({ data, password, act, busy, refresh }) {
+function Settings({ data, password, busy, refresh }) {
   const [count, setCount] = useState(String(data.expected_count))
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
   const [confirmText, setConfirmText] = useState('')
+  const [codeCount, setCodeCount] = useState(String(data.participants.length || 30))
+  const [resetting, setResetting] = useState(false)
+  const [resetError, setResetError] = useState(null)
+  const [resetDone, setResetDone] = useState(null)
+
+  const parsedCodes = Number.parseInt(codeCount, 10)
+  const codesValid = Number.isFinite(parsedCodes) && parsedCodes >= 1 && parsedCodes <= 500
+
+  async function reset() {
+    setResetting(true)
+    setResetError(null)
+    setResetDone(null)
+    try {
+      await rpc('admin_reset', { p_password: password, p_code_count: parsedCodes })
+      await refresh()
+      setConfirmText('')
+      setResetDone(parsedCodes)
+    } catch (err) {
+      setResetError(err)
+    } finally {
+      setResetting(false)
+    }
+  }
 
   const parsed = Number.parseInt(count, 10)
   const countChanged = Number.isFinite(parsed) && parsed !== data.expected_count
@@ -406,9 +429,28 @@ function Settings({ data, password, act, busy, refresh }) {
       <section className="space-y-4">
         <h3 className="font-serif text-xl">Nullstill</h3>
         <p className="text-zinc-400">
-          Sletter alle registreringer og stemmer og setter avstemningen tilbake til registrering, for eksempel etter en
-          generalprøve. Kodene beholdes, så lapper som er skrevet ut, virker fortsatt. Bildene blir liggende i Supabase.
+          Sletter alle registreringer, stemmer og koder og setter avstemningen tilbake til registrering, for eksempel
+          etter en generalprøve. Det lages nye koder, så koder som er delt ut tidligere, slutter å virke. Skriv ut nye
+          lapper etterpå. Bildene blir liggende i Supabase.
         </p>
+        <ErrorText error={resetError} />
+        {resetDone && (
+          <p className="border border-amber-500/40 text-amber-200 px-4 py-3 text-sm">
+            Nullstilt. {resetDone} nye koder er laget. Skriv ut lappene under Lapper.
+          </p>
+        )}
+        <label className="block">
+          <span className="block text-sm text-zinc-400 mb-2">Antall nye koder</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={1}
+            max={500}
+            value={codeCount}
+            onChange={(e) => setCodeCount(e.target.value)}
+            className="w-28 bg-zinc-900 border border-zinc-700 focus:border-amber-500 outline-none px-4 py-3 text-lg"
+          />
+        </label>
         <label className="block">
           <span className="block text-sm text-zinc-400 mb-2">Skriv NULLSTILL for å bekrefte</span>
           <input
@@ -421,13 +463,10 @@ function Settings({ data, password, act, busy, refresh }) {
         </label>
         <Button
           variant="danger"
-          disabled={confirmText.trim().toUpperCase() !== 'NULLSTILL' || busy}
-          onClick={async () => {
-            await act('reset')
-            setConfirmText('')
-          }}
+          disabled={confirmText.trim().toUpperCase() !== 'NULLSTILL' || !codesValid || busy || resetting}
+          onClick={reset}
         >
-          Nullstill alt
+          {resetting ? 'Nullstiller …' : 'Nullstill og lag nye koder'}
         </Button>
       </section>
     </div>
@@ -507,7 +546,7 @@ function Dashboard({ password, onLogout }) {
         {data && tab === 'oversikt' && <Overview data={data} act={act} choose={choose} busy={busy} />}
         {data && tab === 'lapper' && <Slips people={data.participants} />}
         {data && tab === 'innstillinger' && (
-          <Settings data={data} password={password} act={act} busy={busy} refresh={refresh} />
+          <Settings data={data} password={password} busy={busy} refresh={refresh} />
         )}
       </main>
     </div>

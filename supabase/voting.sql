@@ -244,15 +244,22 @@ begin
   update voting.settings set admin_password_hash = extensions.crypt(p_password, extensions.gen_salt('bf')) where id = 1;
 end $$;
 
--- Resets everything after a dress rehearsal. Codes are kept, so printed
--- slips still work. The phase goes back to registration.
-create or replace function voting.reset()
+-- Resets everything after a dress rehearsal: deletes all registrations,
+-- votes and codes, and creates p_code_count new codes. Codes handed out
+-- during testing stop working, so new slips must be printed. The phase goes
+-- back to registration.
+drop function if exists voting.reset();
+create or replace function voting.reset(p_code_count int)
 returns void language plpgsql set search_path = '' as $$
 begin
+  if p_code_count is null or p_code_count < 1 or p_code_count > 500 then
+    raise exception 'Antall koder må være mellom 1 og 500.';
+  end if;
   delete from voting.votes where true;
   delete from voting.ballots where true;
   delete from voting.upload_tokens where true;
-  update voting.participants set name = null, photo_path = null, registered_at = null where true;
+  delete from voting.participants where true;
+  perform voting.generate_codes(p_code_count);
   update voting.settings
   set phase = 'registration', final_best = '{}', final_worst = '{}', reveal = false,
       winner_best = null, winner_worst = null
@@ -550,13 +557,17 @@ begin
     when 'hide' then
       update voting.settings set reveal = false where id = 1;
 
-    -- Same as voting.reset(): keeps the codes, so printed slips still work.
-    when 'reset' then
-      perform voting.reset();
-
     else
       raise exception 'Ukjent handling: %', p_action;
   end case;
+end $$;
+
+-- Starts over with new codes; see voting.reset.
+create or replace function public.admin_reset(p_password text, p_code_count int)
+returns void language plpgsql security definer set search_path = '' as $$
+begin
+  perform voting.check_admin(p_password);
+  perform voting.reset(p_code_count);
 end $$;
 
 -- Voting opens by itself once this many have registered (or at voting_opens_at).
@@ -607,6 +618,7 @@ revoke all on function public.cast_vote(text, uuid, uuid) from public;
 revoke all on function public.screen_state() from public;
 revoke all on function public.admin_overview(text) from public;
 revoke all on function public.admin_action(text, text) from public;
+revoke all on function public.admin_reset(text, int) from public;
 revoke all on function public.admin_set_expected_count(text, int) from public;
 revoke all on function public.admin_choose_winner(text, text, uuid) from public;
 grant execute on function public.participant_state(text) to anon, authenticated;
@@ -616,6 +628,7 @@ grant execute on function public.cast_vote(text, uuid, uuid) to anon, authentica
 grant execute on function public.screen_state() to anon, authenticated;
 grant execute on function public.admin_overview(text) to anon, authenticated;
 grant execute on function public.admin_action(text, text) to anon, authenticated;
+grant execute on function public.admin_reset(text, int) to anon, authenticated;
 grant execute on function public.admin_set_expected_count(text, int) to anon, authenticated;
 grant execute on function public.admin_choose_winner(text, text, uuid) to anon, authenticated;
 
