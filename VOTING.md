@@ -54,11 +54,11 @@ Test with a few phones before the evening. On `/admin/` under **Innstillinger**,
 
 Go through the whole flow: registration, round 1, final and reveal. Afterwards, under **Innstillinger**, reset (type NULLSTILL to confirm) and set the number of participants back to 22.
 
-Resetting deletes registrations and votes but keeps the codes, so printed slips still work. Test photos stay in Storage under `mustaches` and can be deleted there if you like.
+Resetting deletes all registrations, votes and codes, and creates new codes (by default as many as before). Codes handed out during testing stop working, so print the slips after the last reset. Test photos stay in Storage under `mustaches` and can be deleted there if you like.
 
 ### 5. Print the slips
 
-Open `/admin/`, log in and go to **Lapper → Skriv ut**. There are eight slips per A4 sheet, with dashed edges to cut along.
+Do this after the dress rehearsal and the final reset, since resetting replaces all codes. Open `/admin/`, log in and go to **Lapper → Skriv ut**. There are eight slips per A4 sheet, with dashed edges to cut along.
 
 ## On the evening
 
@@ -95,8 +95,11 @@ Then run `npm run dev` and open `http://localhost:5173/admin/`. Stop Supabase wi
 -- Change the opening time
 update voting.settings set voting_opens_at = '2026-11-28 18:00 Europe/Oslo' where id = 1;
 
--- Create more codes
+-- Create more codes (existing codes keep working)
 select * from voting.generate_codes(5);
+
+-- Start over with 30 new codes (same as resetting on the admin page)
+select voting.reset(30);
 
 -- Change the admin password
 select voting.set_admin_password('new-password-here');
